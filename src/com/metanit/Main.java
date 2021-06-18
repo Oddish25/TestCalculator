@@ -1,5 +1,6 @@
 package com.metanit;
 
+import java.time.temporal.ValueRange;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,6 +9,7 @@ public class Main {
 
 
     public static void main(String[] args) {
+
 
         String[] inputList = getData();
         int[] numbers = getInt(inputList);
@@ -31,7 +33,18 @@ public class Main {
         {
             System.out.println("Результат операции:" +result);
         }
-        else {
+        else
+        {
+            if (result == 0)
+            {
+                System.out.println("Результат операции: " + result);
+                return;
+            }
+            else if (result < 0)
+            {
+                System.out.println("Результат операции: -" + arabicToRoman(Math.abs(result)));
+                return;
+            }
             System.out.println("Результат операции: " + arabicToRoman(result));
         }
     }
@@ -43,14 +56,25 @@ public class Main {
         if(scanner.hasNext()){
             String input = scanner.nextLine();
             String[] inputList = input.split(" ");
+
             if (inputList.length == 3)
             {
-                return new String[]{inputList[0],inputList[1],inputList[2]};
+                int[] num;
+                ValueRange range = ValueRange.of(1,9);
+                num = getInt(inputList);
+                if (range.isValidIntValue(num[1]) && range.isValidIntValue(num[2]))
+                {
+                    return new String[]{inputList[0],inputList[1],inputList[2]};
+                }
+                else
+                {
+                    System.out.println("Число выходит за диапазон, введите еще раз");
+                    result = getData();
+                }
             }
             else {
                 System.out.println("Ошибка ввода, введите еще раз");
                 result = getData();
-
             }
         }
         else
